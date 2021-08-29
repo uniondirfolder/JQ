@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import java.util.Scanner;
 
+@Developer
 public class Gamer implements Serializable {
 
     private String name;
