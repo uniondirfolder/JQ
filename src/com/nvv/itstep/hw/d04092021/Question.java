@@ -1,8 +1,19 @@
 package com.nvv.itstep.hw.d04092021;
 
+
 import java.util.Objects;
 
-public class Question {
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.*;
+
+@Developer
+public class Question implements Serializable {
+
     private String question;
     private String answer;
     private String var1;
@@ -57,6 +68,19 @@ public class Question {
         this.var3 = var3;
     }
 
+    @UseFileManager
+    public Question(String[] args) throws FileManagerException {
+        if(args==null || args.length != 5){
+            throw new FileManagerException("Invalid arguments.");
+        }
+        this.question = args[0];
+        this.answer = args[1];
+        this.var1 = args[2];
+        this.var2 = args[3];
+        this.var3 = args[4];
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -69,4 +93,41 @@ public class Question {
     public int hashCode() {
         return Objects.hash(question, answer, var1, var2, var3);
     }
+
+    public static String[] getVariants(Question question){
+        String[] array =  new String[]{question.getAnswer(), question.getVar1(), question.getVar2(), question.getVar3()};
+        Collections.shuffle(Arrays.asList(array));
+        return array;
+    }
+
+    public static ArrayList<Question> readCSV(String file) {
+
+        try {
+            Class questionClass = Question.class;
+            Field[] fields = questionClass.getDeclaredFields();
+            Annotation[] annotations = questionClass.getAnnotations();
+            for (int i = 0; i < annotations.length; i++) {
+                if (!(annotations[i] instanceof Developer)) {
+                    throw new FileManagerException("Not found constructor.");
+                }
+            }
+            ArrayList<Question> arrayList = new ArrayList<>();
+            try (Scanner scanner = new Scanner(new File(file))) {
+                int count = 0;
+                while (scanner.hasNextLine()) {
+                    String[] strings = scanner.nextLine().split(";");
+                    if (strings.length != fields.length) {
+                        throw new FileManagerException("Invalid file format.");
+                    }
+                    arrayList.add(new Question(strings));
+                }
+            }
+            return arrayList;
+
+        } catch (FileNotFoundException | FileManagerException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
