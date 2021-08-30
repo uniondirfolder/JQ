@@ -8,9 +8,9 @@ public class Main {
     static List<String> list = new LinkedList<>();
 
     public static void main(String[] args) {
-        int column = 4;
+        int column = 2;
         int spaces = 3;
-        int randCountStr = 16;
+        int randCountStr = 17;
         char ch = '1';
         setRandomListStrings(randCountStr, ch);
 
