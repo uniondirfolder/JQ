@@ -1,4 +1,4 @@
-package com.nvv.itstep.lection.thread.thread6;
+package com.nvv.itstep.lection.l13_thread.thread6;
 
 public class Volatile {
     private volatile boolean exit = false;//true

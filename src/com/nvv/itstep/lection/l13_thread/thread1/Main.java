@@ -1,4 +1,4 @@
-package com.nvv.itstep.lection.thread.thread1;
+package com.nvv.itstep.lection.l13_thread.thread1;
 
 public class Main {
     public static void main(String[] args) {

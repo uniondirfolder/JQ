@@ -1,4 +1,4 @@
-package com.nvv.itstep.lection.thread.thread7;
+package com.nvv.itstep.lection.l13_thread.thread7;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

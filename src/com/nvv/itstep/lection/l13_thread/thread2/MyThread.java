@@ -1,7 +1,6 @@
-package com.nvv.itstep.lection.thread.thread1;
+package com.nvv.itstep.lection.l13_thread.thread2;
 
-public class MyThread extends Thread {
-    //ctrl + O
+public class MyThread implements Runnable{
 
     @Override
     public void run() {
@@ -16,5 +15,4 @@ public class MyThread extends Thread {
         }
         System.out.println("myThread finish " + Thread.currentThread().getName());
     }
-
 }

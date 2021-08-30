@@ -1,7 +1,7 @@
-package com.nvv.itstep.lection.thread.thread4;
+package com.nvv.itstep.lection.l13_thread.thread4;
 
 
-import com.nvv.itstep.lection.thread.thread2.MyThread;
+import com.nvv.itstep.lection.l13_thread.thread2.MyThread;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.nvv.itstep.lection.thread.thread5;
+package com.nvv.itstep.lection.l13_thread.thread5;
 
 public class CounterThread extends Thread {
     @Override
