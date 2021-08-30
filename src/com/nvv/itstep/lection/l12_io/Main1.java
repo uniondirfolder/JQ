@@ -1,8 +1,4 @@
-package com.nvv.itstep.lection.io;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+package com.nvv.itstep.lection.l12_io;
 
 public class Main1 {
     public static void main(String[] args) {

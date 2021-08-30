@@ -1,4 +1,4 @@
-package com.nvv.itstep.lection.io;
+package com.nvv.itstep.lection.l12_io;
 
 import java.io.*;
 
