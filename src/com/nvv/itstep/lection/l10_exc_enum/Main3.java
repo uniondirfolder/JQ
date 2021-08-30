@@ -26,16 +26,16 @@ public class Main3 {
 //        }
 //        System.out.println("finish");
 
-        ArrayList<User> users = new ArrayList<>();
-        users.add(new User());
-        users.add(null);
-        users.add(new User());
-        System.out.println(users.size());
-
-        System.out.println(users);
-
-        User user = UtilUser.getExcpenciveUser(3000);
-        System.out.println(user.getName());
+//        ArrayList<User> users = new ArrayList<>();
+//        users.add(new User());
+//        users.add(null);
+//        users.add(new User());
+//        System.out.println(users.size());
+//
+//        System.out.println(users);
+//
+//        User user = UtilUser.getExcpenciveUser(3000);
+//        System.out.println(user.getName());
     }
 
 
