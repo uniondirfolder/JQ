@@ -1,37 +1,47 @@
 package com.nvv.itstep.hw.d02092021.server;
 
+import com.nvv.itstep.hw.d02092021.general.FileManager;
 import com.nvv.itstep.hw.d02092021.general.Message;
+import com.nvv.itstep.hw.d04092021.Developer;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-public class Server {
-    private int port;
-    private List<Message> messageList;
-    private List<ClientSocket> clientSocketList;
-    private Object lock = new Object();
+@Developer
+public class Server implements Serializable {
+    transient private int port;
+    transient private Deque<Message> messageList;
+    private List<Message> messageListArc;
+    transient private List<ClientSocket> clientSocketList;
+    transient volatile private boolean isAlive = true;
+    transient private ServerSocket serverSocket;
 
     public Server(int port) {
+        File file = new File("backup.dat");
         this.port = port;
+        if (file.exists()) {
+            new FileManager<List<Message>>().readFileDeSerialize("backup.date");
+        }
         this.messageList = new LinkedList<>();
+        this.messageListArc = new ArrayList<>();
         Long time = new Date().getTime();
         this.messageList.add(new Message("admin", "hello ysem!", time.toString()));
         this.clientSocketList = new LinkedList<>();
+        new Thread(new Sender()).start();
     }
 
     public void start() {
         System.out.println("start");
-        Thread ths = new Thread(new Sender());
-        ths.start();
 
         try {
-            ServerSocket serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(port);
             System.out.println("created");
-            while (true) {
+            while (isAlive) {
                 Socket socket = serverSocket.accept();
                 System.out.println("connected " + socket.getInetAddress() + " " + socket.getPort());
                 ClientSocket cs = new ClientSocket(socket);
@@ -40,32 +50,44 @@ public class Server {
                 clientSocketList.add(cs);
                 System.out.println("New client");
                 System.out.println("Active clients => " + clientSocketList.size());
+
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        new FileManager<List<Message>>().writeFileSerialize("backup.dat", messageListArc);
         System.out.println("stop");
     }
-
 
     class Sender implements Runnable {
         private int nextSend = 0;
 
         @Override
         public void run() {
-            if (messageList.size() > nextSend) {
-                for (Iterator<ClientSocket> iterator = clientSocketList.iterator(); iterator.hasNext(); ) {
-                    ClientSocket next = iterator.next();
-                    for (int i = nextSend, j = messageList.size(); i < j; i++) {
-                        next.sendMsg(messageList.get(i).toString());
+            Message tmp;
+            String str = "";
+            while (isAlive) {
+                synchronized (messageList) { // if not  -> exception on operation delete
+                    while (messageList.size() > 0) {
+                        tmp = messageList.pop();
+                        str = tmp.toString();
+                        for (int w = 0; w < clientSocketList.size(); w++) {
+                            ClientSocket next = clientSocketList.get(w);
+                            next.sendMsg(str);
+                        }
                     }
                 }
-                nextSend = messageList.size()-1;
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             try {
-                TimeUnit.MILLISECONDS.sleep(1);
-            } catch (InterruptedException e) {
+                serverSocket.close();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -78,6 +100,7 @@ public class Server {
         private Message msg;
         private boolean clientExit = false;
 
+
         public ClientSocket(Socket socket) {
             this.socket = socket;
             try {
@@ -86,9 +109,10 @@ public class Server {
                 Long time = new Date().getTime();
                 this.msg = new Message("server", "WELCOME to CHAT", time.toString());
                 sendMsg(msg.toString());
-                for (Message msg : messageList) {
+                for (Message msg : messageListArc) {
                     sendMsg(msg.toString());
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -109,6 +133,9 @@ public class Server {
                         System.out.println(msg.print());
                         if (("exit").equals(msg.getBody())) {
                             clientExit = true;
+                        }
+                        if ("kill_djo".equals(msg.getBody())) {
+                            isAlive = false;
                         }
                     }
                 }
