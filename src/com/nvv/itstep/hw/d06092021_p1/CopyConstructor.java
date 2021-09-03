@@ -1,4 +1,4 @@
-package com.nvv.itstep.hw.d09092021_p1;
+package com.nvv.itstep.hw.d06092021_p1;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
