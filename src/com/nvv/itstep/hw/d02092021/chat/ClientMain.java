@@ -3,7 +3,6 @@ package com.nvv.itstep.hw.d02092021.chat;
 
 import com.nvv.itstep.hw.d02092021.client.Client;
 import com.nvv.itstep.hw.d02092021.general.ConnectException;
-import com.nvv.itstep.hw.d02092021.general.Message;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,7 +29,7 @@ public class ClientMain {
                 str = sc.nextLine();
                 if (!str.isEmpty()) {
                     try {
-                        cli.sendMessageToServer(str);
+                        cli.sendMessage(str);
                     } catch (ConnectException e) {
                         System.out.println(e.getMessage());
                     }

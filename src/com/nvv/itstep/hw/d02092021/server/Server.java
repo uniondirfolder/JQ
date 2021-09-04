@@ -1,5 +1,7 @@
 package com.nvv.itstep.hw.d02092021.server;
 
+import com.nvv.itstep.hw.d02092021.client.Client;
+import com.nvv.itstep.hw.d02092021.general.ConnectException;
 import com.nvv.itstep.hw.d02092021.general.FileManager;
 import com.nvv.itstep.hw.d02092021.general.Message;
 import com.nvv.itstep.hw.d04092021.Developer;
@@ -13,19 +15,20 @@ import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 @Developer
-public class Server implements Serializable {
+public class Server implements Serializable, Chat {
     transient private int port;
     transient private Deque<Message> messageList;
     private List<Message> messageListArc;
     transient private List<ClientSocket> clientSocketList;
     transient volatile private boolean isAlive = true;
     transient private ServerSocket serverSocket;
+    transient private final String backUp = "backup.dat";
 
     public Server(int port) {
-        File file = new File("backup.dat");
+        File file = new File(backUp);
         this.port = port;
         if (file.exists()) {
-            new FileManager<List<Message>>().readFileDeSerialize("backup.date");
+            new FileManager<List<Message>>().readFileDeSerialize(backUp);
         }
         this.messageList = new LinkedList<>();
         this.messageListArc = new ArrayList<>();
@@ -35,6 +38,7 @@ public class Server implements Serializable {
         new Thread(new Sender()).start();
     }
 
+    @Override
     public void start() {
         System.out.println("start");
 
@@ -61,6 +65,15 @@ public class Server implements Serializable {
         System.out.println("stop");
     }
 
+    @Override
+    public void sendMessage(String msg, Client client) {
+        try {
+            client.sendMessage(msg);
+        } catch (ConnectException e) {
+            e.printStackTrace();
+        }
+    }
+
     class Sender implements Runnable {
         private int nextSend = 0;
 
@@ -73,6 +86,7 @@ public class Server implements Serializable {
                     while (messageList.size() > 0) {
                         tmp = messageList.pop();
                         str = tmp.toString();
+                        messageListArc.add(tmp);
                         for (int w = 0; w < clientSocketList.size(); w++) {
                             ClientSocket next = clientSocketList.get(w);
                             next.sendMsg(str);

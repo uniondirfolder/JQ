@@ -8,8 +8,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
 @Developer
-public class Client extends Thread {
+public class Client extends Thread implements Exchange {
     private User owner;
     private Deque<Message> income;
     private Deque<Message> outcome;
@@ -18,7 +19,8 @@ public class Client extends Thread {
     private Thread sender;
     volatile boolean interruptAll = false;
 
-    public void sendMessageToServer(String msg) throws ConnectException {
+    @Override
+    public void sendMessage(String msg) throws ConnectException {
         if (msg.contains("%")) {
             throw new ConnectException("Unregistered symbol! - % )");
         }
@@ -31,15 +33,20 @@ public class Client extends Thread {
 
     }
 
+    @Override
+    public void getMessage(String msg) {
+        System.out.println(msg);
+    }
+
     public Client(String name, String address, int port) throws IOException {
-            this.socket = new Socket(address, port);
-            owner = new User(name);
-            income = new LinkedList<>();
-            outcome = new LinkedList<>();
-            this.listener = new Thread(new Listener(this.socket));
-            this.sender = new Thread(new Sender(this.socket));
-            this.listener.start();
-            this.sender.start();
+        this.socket = new Socket(address, port);
+        owner = new User(name);
+        income = new LinkedList<>();
+        outcome = new LinkedList<>();
+        this.listener = new Thread(new Listener(this.socket));
+        this.sender = new Thread(new Sender(this.socket));
+        this.listener.start();
+        this.sender.start();
     }
 
     class Listener implements Runnable {
@@ -111,7 +118,7 @@ public class Client extends Thread {
     public void run() {
         while (!interruptAll) {
             while (income.size() > 0) {
-                System.out.println(income.pop().print());
+                getMessage(income.pop().print());
             }
             if (interruptAll) {
                 System.out.println("Close printing...");

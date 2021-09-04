@@ -29,7 +29,7 @@ public class ClientMain2 {
                 str = sc.nextLine();
                 if (!str.isEmpty()) {
                     try {
-                        cli.sendMessageToServer(str);
+                        cli.sendMessage(str);
                     } catch (ConnectException e) {
                         System.out.println(e.getMessage());
                     }
