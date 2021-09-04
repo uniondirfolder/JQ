@@ -8,9 +8,9 @@ public class Main {
     static List<String> list = new LinkedList<>();
 
     public static void main(String[] args) {
-        int column = 2;
-        int spaces = 3;
-        int randCountStr = 17;
+        int column = 4;
+        int spaces = 4;
+        int randCountStr = 13;
         char ch = '1';
         setRandomListStrings(randCountStr, ch);
 
@@ -53,12 +53,14 @@ public class Main {
         int tab = 0;
         for (int i = 0; i < column; i++) {
             for (int w = 0; w < row; w++) {
-                if (tab < m[w][i].length()) tab = m[w][i].length();
+                if (tab < m[w][i].length()) {
+                    tab = m[w][i].length();
+                }
             }
             for (int w = 0; w < row; w++) {
                 m[w][i] = getWithSpaces(m[w][i], tab - m[w][i].length() + spaces);
             }
-
+            tab = 0;
         }
 
         StringBuilder sb = new StringBuilder();
