@@ -7,7 +7,7 @@ public class CustomClassLoaderDemo extends ClassLoader {
     public Class<?> findClass(String name) {
         byte[] bt = loadClassData(name);
         //return defineClass(name, bt, 0, bt.length);
-        return defineClass("com.nvv.ReflectionTest", bt, 0, bt.length); // ToDo обработка строки из файла имя пакета + имя класа
+        return defineClass("nvv.ReflectionTest", bt, 0, bt.length); // ToDo обработка строки из файла имя пакета + имя класа
     }
     private byte[] loadClassData(String file) {
         //read class

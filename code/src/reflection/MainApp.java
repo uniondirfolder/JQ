@@ -106,7 +106,7 @@ public class MainApp {
 //            ClassLoader cl = new URLClassLoader(urls);
 //
 //            //load the Address class in 'c:\\other_classes\\'
-//            Class  cls = cl.loadClass("com.nvv.ReflectionTest");
+//            Class  cls = cl.loadClass("nvv.ReflectionTest");
 //
 //            //print the location from where this class was loaded
 //            ProtectionDomain pDomain = cls.getProtectionDomain();

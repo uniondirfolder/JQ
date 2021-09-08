@@ -1,0 +1,8 @@
+
+https://www.baeldung.com/java-annotation-processing-builder
+
+https://github.com/gunnarmorling/awesome-annotation-processing/
+
+https://github.com/srcmaxim/java-annotation-processing-101
+
+http://kasunpanorama.blogspot.com/2015/04/understanding-reactor-pattern-with-java.html
