@@ -24,7 +24,7 @@ public class Main {
                 level = 4;
             } else if (str.equals("-main")) {
                 level = 0;
-            } else if (str.equals("-add")) {
+            } else if (str.equals("-add") && level == 4) {
                 users.showGroup();
                 System.out.println("add > category? n: ");
                 str = cs.nextLine();
@@ -39,7 +39,7 @@ public class Main {
                     level = 0;
                 }
 
-            } else if (str.equals("-edit")) {
+            } else if (str.equals("-edit")&& level == 4) {
                 System.out.println("edit > task? n: ");
                 str = cs.nextLine();
                 try {
@@ -53,7 +53,7 @@ public class Main {
                     level = 0;
                 }
 
-            } else if (str.equals("-del")) {
+            } else if (str.equals("-del")&& level == 4) {
                 System.out.println("del > task? n: ");
                 str = cs.nextLine();
                 try {
@@ -67,7 +67,7 @@ public class Main {
 
             } else if ("-exit".equals(str)) {
                 break;
-            } else if ("-sort".equals(str)) {
+            } else if ("-sort".equals(str)&& level == 4) {
                 users.showSort();
                 System.out.println("sort > n?: ");
                 str = cs.nextLine();
@@ -86,7 +86,7 @@ public class Main {
                     index = Integer.parseInt(str);
                     level++;
                 } catch (Exception e) {
-                    System.out.print("bad params!");
+                    System.out.println("bad params!");
                     level = 0;
                 }
             }

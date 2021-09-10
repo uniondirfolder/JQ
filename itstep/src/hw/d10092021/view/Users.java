@@ -2,8 +2,6 @@ package hw.d10092021.view;
 
 import hw.d10092021.controller.Actions;
 import hw.d10092021.model.Task;
-import hw.d10092021.sql.exeptions.SQLExceptionFieldLength;
-import hw.d10092021.sql.exeptions.SQLExceptionForeignKey;
 import hw.d10092021.utils.DateCalculate;
 import hw.d10092021.utils.Transfer;
 import hw.d10092021.view.model.Period;
@@ -37,9 +35,9 @@ public class Users implements User {
 
     @Override
     public void updateTask(VTask task) {
-        long group_id = groups.get((int) task.getCategory_id() - 1).getId();
-        task.setCategory_id(group_id);
-        actions.updateTask(new Task(task));
+        VTask t = tasks.get((int) (task.getCategory_id()-1));
+        t.setDescription(task.getDescription());
+        actions.updateTask(new Task(t));
         Transfer.tasksToVTasks(actions.getTasks(), tasks);
     }
 
@@ -90,10 +88,6 @@ public class Users implements User {
             case LAST_DAY -> {
                 long r = currentTimeDay - (24 * 60 * 60  * 1000);
                 long finalL1 = currentTimeDay;
-                System.out.println(r + " "+finalL1);
-                for (VTask vTask : tasks) {
-                    System.out.println(vTask.getDate().getTime());
-                }
                 tasks.stream().filter(f -> f.getDate().getTime() <= finalL1 && f.getDate().getTime() >= r).forEach(System.out::println);
             }
             case CURRENT_WEEK -> {
@@ -135,7 +129,6 @@ public class Users implements User {
         for (int i = 0; i < colTask.size(); i++) {
             System.out.println(String.format("%-2d", (i + 1)) + colTask.get(i).toString());
         }
-        System.out.println("add/edit/delete -> -add, -edit , -del");
         System.out.println("go main -> -main");
     }
 
