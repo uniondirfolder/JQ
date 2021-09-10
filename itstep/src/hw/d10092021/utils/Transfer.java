@@ -12,7 +12,7 @@ public class Transfer {
         if (to.size() > 0) to.clear();
         if (from != null) {
             for (Task task : from) {
-                to.add(new VTask(task.getCreatedDate(), task.getDescription(), task.getGroup_id()));
+                to.add(new VTask(task.getId(), task.getCreatedDate(), task.getDescription(), task.getGroup_id()));
             }
             from.clear();
         }

@@ -3,6 +3,7 @@ package hw.d10092021.model;
 import hw.d10092021.sql.types.*;
 import hw.d10092021.sql.exeptions.SQLExceptionFieldLength;
 import hw.d10092021.sql.enums.DB;
+import hw.d10092021.view.model.VCategory;
 
 
 @Table(name = "category", dbType = DB.SQLITE)
@@ -34,6 +35,12 @@ public class Group {
     public Group(String name) {
         this.name = name;
     }
+    public Group(VCategory that){
+        this.id = that.getId();
+        this.name = that.getName();
+        this.relation = 0;
+    }
+
     public Group() {
     }
 

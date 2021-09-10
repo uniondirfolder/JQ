@@ -1,11 +1,14 @@
 package hw.d10092021.utils;
 
+import hw.d10092021.model.Task;
 import hw.d10092021.sql.enums.DB;
 import hw.d10092021.sql.enums.SQLite;
 import hw.d10092021.sql.types.*;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -100,7 +103,7 @@ public class Commands implements Command {
                                     //_cmd.append(";");
                                 }
                                 case RECORD -> {
-                                    _cmd.append(getSQLiteRowsRelations(mdl));
+                                    _cmd.append(getSQLiteRowsRelations(mdl, _table.toString()));
                                 }
                             }
                         }
@@ -145,7 +148,7 @@ public class Commands implements Command {
                                     _cmd.append(_table);
                                     _cmd.append(" ");
                                     _cmd.append(SQLite.SET.getValue());
-                                    _cmd.append(getSQLiteSetRows(mdl));
+                                    _cmd.append(getSQLiteSetRows(mdl,true));
                                 }
                             }
                         }
@@ -157,6 +160,7 @@ public class Commands implements Command {
         }
         return _cmd.toString();
     }
+
     @Override
     public String delete(Object db, Object enm, Object mdl) {
         _cmd = new StringBuilder();
@@ -205,6 +209,7 @@ public class Commands implements Command {
         }
         return _cmd.toString();
     }
+
     private String getSQLiteRows(Object mdl) {
         _cl = mdl.getClass();
         _rows = new StringBuilder("( ");
@@ -255,6 +260,7 @@ public class Commands implements Command {
 
         return _rows.toString();
     }
+
     private String getSQLiteRowsWithValues(Object mdl) {
         _cl = mdl.getClass();
         _colm = new StringBuilder("( ");
@@ -286,7 +292,7 @@ public class Commands implements Command {
         return _colm.toString();
     }
 
-    private String getSQLiteSetRows(Object mdl) {
+    private String getSQLiteSetRows(Object mdl , boolean statement) {
         _cl = mdl.getClass();
         _colm = new StringBuilder(" ");
         _fields = _cl.getDeclaredFields();
@@ -295,10 +301,10 @@ public class Commands implements Command {
             _ano = _fields[i].getAnnotations();
             _colm.append(_fields[i].getName().toUpperCase(Locale.ROOT));
             int c = Arrays.stream(_fields[i].getAnnotations()).filter(x -> x instanceof SQLString).toArray().length;
-            if (c == 0) {
-                _colm.append(" = ?");
-            } else {
+            if (c != 0 && !statement) {
                 _colm.append(" = '?'");
+            } else {
+                _colm.append(" = ?");
             }
             if (i < _fields.length - 1) {
                 _colm.append(", ");
@@ -306,26 +312,40 @@ public class Commands implements Command {
         }
 
         _colm.append(" " + SQLite.WHERE.getValue());
-        _colm.append(SQLite.ID.getValue() + "= ?;");
+        _colm.append(SQLite.ID.getValue() + "= "); // fk
         return _colm.toString();
     }
-    private String getSQLiteRowsRelations(Object mdl) throws IllegalAccessException {
+
+    private String getSQLiteRowsRelations(Object mdl, String table) throws IllegalAccessException {
         _cl = mdl.getClass();
         _fields = _cl.getDeclaredFields();
-        _colm = new StringBuilder(SQLite.SELECT.getValue() + " * ");
-        _colm = new StringBuilder(SQLite.FROM.getValue());
+        _colm = new StringBuilder();
+        _colm.append(SQLite.SELECT.getValue() + "* " + SQLite.FROM.getValue() + table);
         for (int i = 0; i < _fields.length; i++) {
             _ano = _fields[i].getAnnotations();
             for (int j = 0; j < _ano.length; j++) {
-                if(_ano[j] instanceof ForeignKey){
+                if (_ano[j] instanceof ForeignKey) {
                     ForeignKey fk = (ForeignKey) _ano[j];
-                    _colm.append(fk.innerColumn().toUpperCase(Locale.ROOT));
                     _colm.append(" " + SQLite.WHERE.getValue());
-                    _colm.append(fk.outerColumn().toUpperCase(Locale.ROOT) + " = ");
+                    _colm.append(fk.innerColumn().toUpperCase(Locale.ROOT) + " = ");
                     _ano = _fields[i].getAnnotations();
-                    for (int w = 0; w < _ano.length; w++) {
-                        if(_ano[w] instanceof SQLInteger){
-                            _colm.append(_fields[i].getLong(_fields[i])); // &&&
+                    for (int w = 0; w < _ano.length; w++) { // must clean code
+                        if (_ano[w] instanceof SQLInteger) {
+                            long l = 0;
+                            String d = fk.innerColumn().toUpperCase(Locale.ROOT);
+                            Method[] m = _cl.getDeclaredMethods();
+                            for (int k = 0; k < m.length; k++) {
+                                if (m[k].getName().toUpperCase(Locale.ROOT).contains(d)) {
+                                    try {
+                                        l = (long) m[k].invoke(mdl);
+                                    } catch (InvocationTargetException e) {
+                                        e.printStackTrace();
+                                    } finally {
+                                        break;
+                                    }
+                                }
+                            }
+                            _colm.append(l); // &&&
                             break;
                         }
                     }

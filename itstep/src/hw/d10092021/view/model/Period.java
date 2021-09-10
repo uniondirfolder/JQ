@@ -5,4 +5,5 @@ public enum Period {
     LAST_DAY,
     CURRENT_WEEK,
     CURRENT_MONTH,
+
 }

@@ -4,15 +4,14 @@ import hw.d10092021.controller.Actions;
 import hw.d10092021.model.Task;
 import hw.d10092021.sql.exeptions.SQLExceptionFieldLength;
 import hw.d10092021.sql.exeptions.SQLExceptionForeignKey;
+import hw.d10092021.utils.DateCalculate;
 import hw.d10092021.utils.Transfer;
 import hw.d10092021.view.model.Period;
 import hw.d10092021.view.model.VCategory;
 import hw.d10092021.view.model.VTask;
-
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Users implements User {
@@ -28,49 +27,27 @@ public class Users implements User {
     }
 
     @Override
-    public void buildTask(int index, VTask task) {
-
-        try {
-            actions.addTask(new Task(task.getDescription(), task.getDate(), groups.get(index).getId()));
-        } catch (SQLExceptionFieldLength e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SQLExceptionForeignKey e) {
-            e.printStackTrace();
-        }
+    public void buildTask(VTask task) {
+        long group_id = groups.get((int) task.getCategory_id() - 1).getId();
+        task.setCategory_id(group_id);
+        actions.addTask(new Task(task));
         Transfer.tasksToVTasks(actions.getTasks(), tasks);
 
     }
 
     @Override
-    public void updateTask(int index, VTask task) {
-        try {
-            actions.updateTask(new Task(task.getDescription(), task.getDate(), groups.get(index).getId()));
-            Transfer.tasksToVTasks(actions.getTasks(), tasks);
-        } catch (SQLExceptionFieldLength e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (SQLExceptionForeignKey e) {
-            e.printStackTrace();
-        }
+    public void updateTask(VTask task) {
+        long group_id = groups.get((int) task.getCategory_id() - 1).getId();
+        task.setCategory_id(group_id);
+        actions.updateTask(new Task(task));
+        Transfer.tasksToVTasks(actions.getTasks(), tasks);
     }
 
     @Override
-    public void deleteTask(int index) {
-        VTask t = tasks.get(index);
-        try {
-            actions.removeTask(new Task(t.getDescription(), t.getDate(), t.getCategory_id()));
-            Transfer.tasksToVTasks(actions.getTasks(), tasks);
-        } catch (SQLExceptionFieldLength sqlExceptionFieldLength) {
-            sqlExceptionFieldLength.printStackTrace();
-        } catch (SQLExceptionForeignKey sqlExceptionForeignKey) {
-            sqlExceptionForeignKey.printStackTrace();
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-        tasks.remove(index);
+    public void deleteTask(int count) {
+        VTask t = tasks.get(count - 1);
+        actions.removeTask(new Task(t));
+        Transfer.tasksToVTasks(actions.getTasks(), tasks);
     }
 
     @Override
@@ -85,39 +62,47 @@ public class Users implements User {
         for (int i = 0; i < tasks.size(); i++) {
             VTask t = tasks.get(i);
             System.out.println(
-                    String.format("%-2d", (i + 1)) +
-                            String.format("%-2s", getCategory(t.getCategory_id()))+ " " + t);
+                    String.format("%-2d", (i + 1)) + ") " + t + " >" + getCategory(t.getCategory_id()));
         }
-        System.out.println("add/edit/delete -> -add, -edit , -del");
+        System.out.println("add/edit/delete/sort -> -add, -edit , -del, -sort");
         System.out.println("go main -> -main");
     }
 
     @Override
-    public void showAllInPeriod(Period period) {
-        LocalDateTime now = LocalDateTime.now();
-        int dow = now.getDayOfWeek().getValue();
-        int dom = now.getDayOfMonth();
-        int cmo = now.getMonth().getValue();
-        int cy = now.getYear();
-        int ch = now.getHour();
-        int cmi = now.getMinute();
-        int csec = now.getSecond();
+    public void showSort() {
+        System.out.println("""
+                1) За сегодня
+                2) За вчера
+                3) За неделю(текущую)
+                4) За месяц(текущую)
+                """);
+    }
 
+    @Override
+    public void showAllInPeriod(Period period) {
+        long currentTime = new Date().getTime();
+        long currentTimeDay = currentTime -(new Date().getTime()- DateCalculate.getMillisByPattern("yyyy.MM.dd"));
         switch (period) {
             case TODAY -> {
-                long l = LocalDateTime.of(cy, dom - 1, 0, 0, 0).toEpochSecond(ZoneOffset.UTC);
-                tasks.stream().filter(f -> f.getDate().getTime() >= l).forEach(System.out::println);
+                long finalL = currentTimeDay;
+                tasks.stream().filter(f -> f.getDate().getTime() >= finalL).forEach(System.out::println);
             }
             case LAST_DAY -> {
-                long l = LocalDateTime.of(cy, dom - 1, 0, 0, 0).toEpochSecond(ZoneOffset.UTC);
-                long r = LocalDateTime.of(cy, dom - 2, 0, 0, 0).toEpochSecond(ZoneOffset.UTC);
-                tasks.stream().filter(f -> f.getDate().getTime() <= l && f.getDate().getTime() >= r).forEach(System.out::println);
+                long r = currentTimeDay - (24 * 60 * 60  * 1000);
+                long finalL1 = currentTimeDay;
+                System.out.println(r + " "+finalL1);
+                for (VTask vTask : tasks) {
+                    System.out.println(vTask.getDate().getTime());
+                }
+                tasks.stream().filter(f -> f.getDate().getTime() <= finalL1 && f.getDate().getTime() >= r).forEach(System.out::println);
             }
             case CURRENT_WEEK -> {
-                int o = 0;
+                long finalL2 = currentTimeDay - DateCalculate.getMillisByPattern("EEE") * (24 * 60 * 60 * 1000);
+                tasks.stream().filter(f -> f.getDate().getTime() >= finalL2).forEach(System.out::println);
             }
             case CURRENT_MONTH -> {
-                int p = 0;
+                long finalL3 = currentTimeDay - DateCalculate.getMillisByPattern("d") * (24 * 60 * 60 * 1000);
+                tasks.stream().filter(f -> f.getDate().getTime() >= finalL3).forEach(System.out::println);
             }
         }
 
@@ -128,13 +113,16 @@ public class Users implements User {
         switch (level) {
             case 0 -> {
                 showGroup();
-                System.out.println("show all -> -all");
+                System.out.println("show all/exit -> -all , -exit");
             }
             case 1 -> {
                 showTasksGroup(index);
             }
             case 4 -> {
                 showAll();
+            }
+            case 5 -> {
+                System.out.println("go main -> -main");
             }
         }
     }
@@ -153,6 +141,9 @@ public class Users implements User {
 
 
     private String getCategory(long id) {
-        return groups.stream().filter(x -> x.getId() == id).findFirst().get().toString();
+        for (VCategory group : groups) {
+            if (group.getId() == id) return group.getName();
+        }
+        return null;
     }
 }
