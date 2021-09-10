@@ -1,7 +1,7 @@
 package hw.d06092021_p2.GoF.creational.AbstractFactory.pepsi;
 
 
-import itstep.hw.d06092021_p2.GoF.creational.AbstractFactory.Developer;
+import hw.d06092021_p2.GoF.creational.AbstractFactory.Developer;
 
 public class PepsiBottle implements Developer {
 
