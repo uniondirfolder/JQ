@@ -24,21 +24,16 @@ public class Main {
 
             /*3.**Поробовать создать сложный объект(у юзера есть адрес)*/
             JsonObjects<Project> js = new JsonObjects<>();
-
             String str = js.toJson(project);
             System.out.println(str);
-
             Project project1 = js.fromJson(str,Project.class);
-
             System.out.println("-".repeat(15));
             System.out.println(project.compareTo(project1));
             System.out.println(project.equals(project1));
-
             System.out.println("-".repeat(15));
             project.getDeveloper().setPhoneNumbers("044 123-1235");
             System.out.println(project.compareTo(project1));
             System.out.println(project.equals(project1));
-
             System.out.println("-".repeat(15));
 
             /*2.Создать метод, который будет получать простой объект(firstName, secondName, phone)
@@ -48,11 +43,10 @@ public class Main {
             System.out.println("-".repeat(15));
             System.out.println(JsonObjects.printJson(project1));
             System.out.println("-".repeat(15));
-            System.out.println(JsonObjects.printJson(project1.getDeveloper()));
-            System.out.println("-".repeat(15));
-            System.out.println(JsonObjects.printJson(project1.getDeveloper().getAddress()));
-            System.out.println("-".repeat(15));
-
+//            System.out.println(JsonObjects.printJson(project1.getDeveloper()));
+//            System.out.println("-".repeat(15));
+//            System.out.println(JsonObjects.printJson(project1.getDeveloper().getAddress()));
+//            System.out.println("-".repeat(15));
 
             /*1.Создать копию(клон) простого объекта(firstName, secondName, phone).
                     Использовать рефлексию.*/
