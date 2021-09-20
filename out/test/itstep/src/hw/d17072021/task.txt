@@ -1,8 +1,8 @@
 Создать класс ArrayUser.
 Методы: size(), get(int index),
 getFirst(), getLast(),
-addFirst(User user),addLast(User user),
-set(int index, User user)(заменяет значение).
+addFirst(User userSp),addLast(User userSp),
+set(int index, User userSp)(заменяет значение).
 
 Создать ArrayUser, наполнить данными тестовыми
 и посчитать средний возраст юзеров.

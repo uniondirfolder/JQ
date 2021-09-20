@@ -3,7 +3,7 @@
    "developer": {
 	   "firstName": "Іван",
 	   "lastName": "Коваленко",
-	   "address": {
+	   "addressSp": {
 		   "streetAddress": "вул. Грушевського 14, кв.101",
 		   "city": "Київ",
 		   "postalCode": 21000
