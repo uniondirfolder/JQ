@@ -1,7 +1,6 @@
 package com.nvv.instame.validations;
 
 import com.nvv.instame.annotations.ValidEmail;
-import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,7 +13,7 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 
     @Override
     public void initialize(ValidEmail constraintAnnotation) {
-        //ConstraintValidator.super.initialize(constraintAnnotation);
+        ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
@@ -23,12 +22,8 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
     }
 
     private boolean validateEmail(String email){
-        try{
         Pattern pattern = Pattern.compile(EMAIL_PATTERN);
         Matcher matcher = pattern.matcher(email);
-        return matcher.matches();}
-        catch (Exception e){
-            return false;
-        }
+        return matcher.matches();
     }
 }

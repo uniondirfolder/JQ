@@ -1,8 +1,9 @@
 package com.nvv.instame.web;
 
+import com.nvv.instame.payload.request.LoginRequest;
 import com.nvv.instame.payload.response.JWTTokenSuccessResponse;
 import com.nvv.instame.payload.response.MessageResponse;
-import com.nvv.instame.payload.response.SignupRequest;
+import com.nvv.instame.payload.request.SignupRequest;
 import com.nvv.instame.security.JWTTokenProvider;
 import com.nvv.instame.security.SecurityConstants;
 import com.nvv.instame.services.UserService;
@@ -42,12 +43,14 @@ public class AuthController {
 
 
     @PostMapping("/signin")
-    public ResponseEntity<Object> authenticateUser(@Valid @RequestBody SignupRequest loginRequest, BindingResult bindingResult) {
+    public ResponseEntity<Object> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult) {
 
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if (ObjectUtils.isEmpty(errors)) return errors;
+        if (!ObjectUtils.isEmpty(errors)) return errors;
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getUsername(),
+                loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = SecurityConstants.TOKEN_PREFIX + jwtTokenProvider.generateToken(authentication);
@@ -58,7 +61,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@Valid @RequestBody SignupRequest signupRequest, BindingResult bindingResult) {
         ResponseEntity<Object> errors = responseErrorValidation.mapValidationService(bindingResult);
-        if (ObjectUtils.isEmpty(errors)) return errors;
+        if (!ObjectUtils.isEmpty(errors)) return errors;
 
         userService.createUserApp(signupRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));

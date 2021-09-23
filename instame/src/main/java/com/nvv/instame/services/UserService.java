@@ -4,7 +4,7 @@ package com.nvv.instame.services;
 import com.nvv.instame.entity.ERole;
 import com.nvv.instame.entity.UserApp;
 import com.nvv.instame.exceptions.UserAppExistException;
-import com.nvv.instame.payload.response.SignupRequest;
+import com.nvv.instame.payload.request.SignupRequest;
 import com.nvv.instame.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

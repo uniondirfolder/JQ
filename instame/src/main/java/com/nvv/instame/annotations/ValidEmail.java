@@ -1,6 +1,5 @@
 package com.nvv.instame.annotations;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

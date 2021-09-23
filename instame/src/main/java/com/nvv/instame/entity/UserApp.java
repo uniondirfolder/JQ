@@ -15,7 +15,7 @@ public class UserApp implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, updatable = false, nullable = false)
+    @Column(nullable = false)
     private String nickName;
     @Column(nullable = false)
     private String firstName;
@@ -44,6 +44,7 @@ public class UserApp implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
 
     public UserApp() {
+        bio = "no_info";
     }
 
     public UserApp(Long id,
@@ -75,7 +76,7 @@ public class UserApp implements UserDetails {
 
     @Override
     public String getUsername() {
-        return null;
+        return  nickName; // ???
     }
 
     @Override

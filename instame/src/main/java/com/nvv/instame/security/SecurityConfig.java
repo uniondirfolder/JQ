@@ -20,10 +20,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true,proxyTargetClass = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final CustomUserDetailsService customUserDetailsService;
+
     @Autowired
-    private JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
+    public SecurityConfig(JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint, CustomUserDetailsService customUserDetailsService) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.customUserDetailsService = customUserDetailsService;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
