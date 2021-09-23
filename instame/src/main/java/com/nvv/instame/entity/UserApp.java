@@ -15,7 +15,7 @@ public class UserApp implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String nickName;
     @Column(nullable = false)
     private String firstName;
