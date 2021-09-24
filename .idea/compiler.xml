@@ -7,10 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-d2021-09-23" />
-        <module name="spring-d2021-09-19" />
-        <module name="aop" />
-        <module name="spring-d2021-09-23-aop" />
         <module name="instame" />
       </profile>
     </annotationProcessing>
