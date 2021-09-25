@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="instame" />
+        <module name="spring-d2021-09-26" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,6 +18,7 @@
       <module name="spring-d2021-09-19" target="1.8" />
       <module name="spring-d2021-09-23" target="1.8" />
       <module name="spring-d2021-09-23-aop" target="16" />
+      <module name="spring-d2021-09-26" target="1.7" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
