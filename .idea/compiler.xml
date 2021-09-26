@@ -9,12 +9,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="instame" />
         <module name="spring-d2021-09-26" />
+        <module name="notes" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="aop" target="16" />
       <module name="d-19-09-2021" target="1.7" />
       <module name="instame" target="16" />
+      <module name="notes" target="16" />
       <module name="spring-d2021-09-19" target="1.8" />
       <module name="spring-d2021-09-23" target="1.8" />
       <module name="spring-d2021-09-23-aop" target="16" />
