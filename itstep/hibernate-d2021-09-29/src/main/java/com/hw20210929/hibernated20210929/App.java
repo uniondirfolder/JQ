@@ -1,14 +1,16 @@
-package com.nvv.notes;
+package com.hw20210929.hibernated20210929;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class NotesApp extends Application {
+import java.io.IOException;
+
+public class App extends Application {
     @Override
-    public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(NotesApp.class.getResource("main-view.fxml"));
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 300, 275);
         stage.setTitle("Мои заметки");
         stage.setMinHeight(600);

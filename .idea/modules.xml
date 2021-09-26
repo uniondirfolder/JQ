@@ -5,9 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/JQ.iml" filepath="$PROJECT_DIR$/JQ.iml" />
       <module fileurl="file://$PROJECT_DIR$/attempts/attempts.iml" filepath="$PROJECT_DIR$/attempts/attempts.iml" />
       <module fileurl="file://$PROJECT_DIR$/attempts/code/code.iml" filepath="$PROJECT_DIR$/attempts/code/code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/itstep/hibernate-d2021-09-29/hibernate-d2021-09-29.iml" filepath="$PROJECT_DIR$/itstep/hibernate-d2021-09-29/hibernate-d2021-09-29.iml" />
       <module fileurl="file://$PROJECT_DIR$/instame/instame.iml" filepath="$PROJECT_DIR$/instame/instame.iml" />
       <module fileurl="file://$PROJECT_DIR$/itstep/itstep.iml" filepath="$PROJECT_DIR$/itstep/itstep.iml" />
-      <module fileurl="file://$PROJECT_DIR$/itstep/notes/notes.iml" filepath="$PROJECT_DIR$/itstep/notes/notes.iml" />
       <module fileurl="file://$PROJECT_DIR$/itstep/spring-d2021-09-26/spring-d2021-09-26/spring-d2021-09-26.iml" filepath="$PROJECT_DIR$/itstep/spring-d2021-09-26/spring-d2021-09-26/spring-d2021-09-26.iml" />
     </modules>
   </component>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.hw20210929.hibernated20210929.EditController"
+            prefHeight="120.0" prefWidth="440.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity">
+    <left>
+        <VBox prefHeight="200.0" prefWidth="75.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="lblDate" text="Дата">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </Label>
+                <Label fx:id="lblNote" text="Заметка">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+                    </VBox.margin>
+                </Label>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </BorderPane.margin>
+        </VBox>
+    </left>
+    <center>
+        <VBox minWidth="200.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+                <DatePicker fx:id="datePicker" prefHeight="25.0" prefWidth="190.0">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </DatePicker>
+                <TextField fx:id="txtNote">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </TextField>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </BorderPane.margin>
+        </VBox>
+    </center>
+    <right>
+        <VBox prefHeight="200.0" prefWidth="110.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="btnSave" mnemonicParsing="false" text="Сохранить">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="25.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </Button>
+                <Button fx:id="btnCancel" mnemonicParsing="false" prefHeight="25.0" prefWidth="74.0" text="Отмена">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="25.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                </Button>
+            </children>
+            <BorderPane.margin>
+                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </BorderPane.margin>
+        </VBox>
+    </right>
+
+</BorderPane>
