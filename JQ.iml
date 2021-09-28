@@ -11,5 +11,6 @@
     <orderEntry type="library" name="postgresql-42.2.23" level="project" />
     <orderEntry type="library" name="sqlite-jdbc-3.36.0.3" level="project" />
     <orderEntry type="library" name="darcula" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.36.0.31" level="project" />
   </component>
 </module>

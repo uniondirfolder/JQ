@@ -12,5 +12,6 @@
     <orderEntry type="library" name="darcula" level="project" />
     <orderEntry type="module" module-name="code" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.9" level="project" />
+    <orderEntry type="library" name="sqlite-jdbc-3.36.0.31" level="project" />
   </component>
 </module>

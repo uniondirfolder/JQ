@@ -9,7 +9,9 @@ module com.hw20210929.hibernated20210929 {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
+    requires org.hibernate.orm.core;
+    requires java.persistence;
 
-    opens com.hw20210929.hibernated20210929 to javafx.fxml;
+    opens com.example.demo to javafx.fxml;
     exports com.hw20210929.hibernated20210929;
 }
