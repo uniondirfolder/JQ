@@ -1,2 +1,0 @@
-сент. 25, 2021 4:25:32 PM com.nvv.d20210926.aspects.SecurityAspect aroundSome
-INFO: com.nvv.d20210926.implts.UserAop[0] execution(UserAop com.nvv.d20210926.implts.UserAop.getCurrentUser())
